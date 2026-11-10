@@ -1,0 +1,79 @@
+{
+  "description": "Class-based mobility defaults, NOT measured motion. Add labels here and rerun tools/prepare_model.py; regrouping existing labels only needs a detector restart.",
+  "motion_groups": {
+    "potentially_dynamic": {
+      "display_name": "Could move",
+      "description": "People, animals, vehicles and wheeled objects may move; this does not mean motion has been observed.",
+      "categories": {
+        "People and mobility": [
+          "person",
+          "wheelchair",
+          "stroller"
+        ],
+        "Vehicles": [
+          "car",
+          "van",
+          "truck",
+          "bus",
+          "motorcycle",
+          "bicycle",
+          "scooter",
+          "trailer"
+        ],
+        "Animals": [
+          "dog",
+          "cat",
+          "horse",
+          "cow",
+          "sheep",
+          "deer",
+          "bird"
+        ],
+        "Wheeled loose objects": [
+          "shopping cart",
+          "skateboard"
+        ]
+      }
+    },
+    "usually_static": {
+      "display_name": "Usually stationary",
+      "description": "Commonly stationary obstacles; any object can still be moved. This is not a measured motion state.",
+      "categories": {
+        "Street furniture and barriers": [
+          "bollard",
+          "pole",
+          "traffic cone",
+          "road barrier",
+          "fence",
+          "gate",
+          "wall",
+          "bench",
+          "trash can",
+          "fire hydrant",
+          "parking meter"
+        ],
+        "Natural obstacles": [
+          "tree",
+          "tree stump",
+          "fallen tree",
+          "tree branch",
+          "rock",
+          "boulder",
+          "bush"
+        ],
+        "Loose objects": [
+          "chair",
+          "picnic table",
+          "plant pot",
+          "backpack",
+          "suitcase",
+          "cardboard box",
+          "box",
+          "crate",
+          "ladder",
+          "wooden pallet"
+        ]
+      }
+    }
+  }
+}

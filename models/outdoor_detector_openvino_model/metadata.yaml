@@ -1,0 +1,84 @@
+description: 'Ultralytics YOLOe-26n-seg model trained on {''train'': {''grounding_data'':
+  [{''img_path'': ''../datasets/flickr/full_images/'', ''json_file'': ''../datasets/flickr/annotations/final_flickr_separateGT_train_segm.json''},
+  {''img_path'': ''../datasets/mixed_grounding/gqa/images'', ''json_file'': ''../datasets/mixed_grounding/annotations/final_mixed_train_no_coco_segm.json''},
+  {''img_path'': ''../datasets/Objects365v1/images/train'', ''json_file'': ''../datasets/Objects365v1/annotations/objects365_train_segm.json''}]},
+  ''val'': {''yolo_data'': [''/home/louis/ultra_louis_work/datasets/lvis.yaml'']}}'
+author: Ultralytics
+date: '2026-10-24T20:27:08.071839-04:00'
+version: 8.4.188
+license: AGPL-3.0 License (https://ultralytics.com/license)
+docs: https://docs.ultralytics.com
+stride: 32
+task: segment
+head: YOLOESegment26
+batch: 1
+imgsz:
+- 640
+- 640
+names:
+  0: person
+  1: wheelchair
+  2: stroller
+  3: car
+  4: van
+  5: truck
+  6: bus
+  7: motorcycle
+  8: bicycle
+  9: scooter
+  10: trailer
+  11: dog
+  12: cat
+  13: horse
+  14: cow
+  15: sheep
+  16: deer
+  17: bird
+  18: shopping cart
+  19: skateboard
+  20: bollard
+  21: pole
+  22: traffic cone
+  23: road barrier
+  24: fence
+  25: gate
+  26: wall
+  27: bench
+  28: trash can
+  29: fire hydrant
+  30: parking meter
+  31: tree
+  32: tree stump
+  33: fallen tree
+  34: tree branch
+  35: rock
+  36: boulder
+  37: bush
+  38: chair
+  39: picnic table
+  40: plant pot
+  41: backpack
+  42: suitcase
+  43: cardboard box
+  44: box
+  45: crate
+  46: ladder
+  47: wooden pallet
+  48: red box
+  49: blue box
+  50: green box
+  51: black box
+  52: plastic container
+  53: plastic crate
+  54: human
+  55: pedestrian
+  56: parked car
+args:
+  data: null
+  batch: 1
+  fraction: 1.0
+  quantize: 16
+  nms: null
+  dynamic: true
+channels: 3
+end2end: false

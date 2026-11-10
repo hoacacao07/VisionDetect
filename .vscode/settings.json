@@ -1,0 +1,35 @@
+{
+  "window.title": "Vision Detection | ${activeEditorShort} | ${appName}",
+  "python.defaultInterpreterPath": "${workspaceFolder}/.venv/Scripts/python.exe",
+  "files.exclude": {
+    "**/__pycache__": true,
+    ".venv": true,
+    ".ultralytics": true,
+    "config/settings.schema.json": true
+  },
+  "search.exclude": {
+    "**/.venv": true,
+    "**/models": true,
+    "**/results": true,
+    "**/moving_results": true,
+    "**/work": true
+  },
+  "explorer.sortOrder": "type",
+  "workbench.startupEditor": "readme",
+  "editor.rulers": [
+    88
+  ],
+  "editor.wordWrap": "on",
+  "python.analysis.extraPaths": [
+    "${workspaceFolder}/src"
+  ],
+  "json.schemas": [
+    {
+      "fileMatch": [
+        "/simulation/navigation_settings.json"
+      ],
+      "url": "./simulation/navigation_settings.schema.json"
+    }
+  ],
+  "terminal.integrated.cwd": "${workspaceFolder}"
+}

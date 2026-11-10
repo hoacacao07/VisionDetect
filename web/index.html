@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width,initial-scale=1" name="viewport"/>
+  <title>
+   Vision Lab · Webcam detection
+  </title>
+  <link href="/styles.css" rel="stylesheet"/>
+  <script defer="" src="/viewer.js">
+  </script>
+ </head>
+ <body>
+  <aside class="sidebar">
+   <a class="brand" href="#overview">
+    <span class="brand-mark">
+     ◉
+    </span>
+    VISION
+    <span class="brand-light">
+     LAB
+    </span>
+   </a>
+   <p class="sidebar-caption">
+    YOUR DETECTION PIPELINE
+   </p>
+   <nav aria-label="Processing stages">
+    <a class="stage" href="#camera">
+     <span class="stage-number">
+      01
+     </span>
+     <span>
+      <b>
+       Camera input
+      </b>
+      <small id="cameraDetails">
+       Laptop webcam
+      </small>
+     </span>
+    </a>
+    <a class="stage" href="#objects">
+     <span class="stage-number">
+      02
+     </span>
+     <span>
+      <b>
+       Object detection
+      </b>
+      <small id="classDetails">
+       Outdoor obstacle library
+      </small>
+     </span>
+    </a>
+    <a class="stage" href="#distance">
+     <span class="stage-number">
+      03
+     </span>
+     <span>
+      <b>
+       Distance estimate
+      </b>
+      <small>
+       Understand the assumptions
+      </small>
+     </span>
+    </a>
+    <a class="stage" href="#output">
+     <span class="stage-number">
+      04
+     </span>
+     <span>
+      <b>
+       Data output
+      </b>
+      <small>
+       Structured observations
+      </small>
+     </span>
+    </a>
+   </nav>
+   <div class="sidebar-bottom">
+    <span class="local-dot">
+    </span>
+    Runs on your laptop
+    <p>
+     Local processing.
+     <br/>
+     No video recording.
+    </p>
+   </div>
+  </aside>
+  <main id="overview">
+   <header class="page-heading">
+    <div>
+     <p class="eyebrow">
+      COMPUTER VISION / LAPTOP PROTOTYPE
+     </p>
+     <h1>
+      Live overview
+      <span>
+       .
+      </span>
+     </h1>
+     <p class="subtitle">
+      Recognize objects. Understand their position. Explore distance.
+     </p>
+    </div>
+    <div class="status" id="connectionStatus" role="status">
+     Connecting
+    </div>
+   </header>
+   <section aria-label="Current observations" class="metrics">
+    <article class="metric">
+     <span>
+      Objects in view
+     </span>
+     <strong id="objectCount">
+      —
+     </strong>
+     <small>
+      Current frame
+     </small>
+    </article>
+    <article class="metric">
+     <span>
+      Closest estimate
+     </span>
+     <strong id="nearestDistance">
+      —
+     </strong>
+     <small>
+      Approximate, not measured
+     </small>
+    </article>
+    <article class="metric">
+     <span>
+      Analysis time
+     </span>
+     <strong id="analysisTime">
+      —
+     </strong>
+     <small>
+      Per processed frame
+     </small>
+    </article>
+    <article class="metric">
+     <span>
+      Distance mode
+     </span>
+     <strong id="distanceMode">
+      —
+     </strong>
+     <small id="calibrationStatus">
+      Waiting for settings
+     </small>
+    </article>
+   </section>
+   <div class="live-grid">
+    <section class="panel camera-panel" id="camera">
+     <div class="panel-heading">
+      <div>
+       <span class="section-index">
+        01 / INPUT
+       </span>
+       <h2>
+        Camera view
+       </h2>
+      </div>
+      <span class="quiet-label" id="resolution">
+       Webcam
+      </span>
+     </div>
+     <div class="camera-surface">
+      <img alt="Annotated live webcam preview" hidden="" id="cameraPreview"/>
+      <p id="cameraPlaceholder">
+       Waiting for the detector…
+      </p>
+      <span class="preview-tag">
+       LIVE PREVIEW
+      </span>
+     </div>
+     <div class="camera-caption">
+      <span>
+       <i class="legend-dot">
+       </i>
+       Labels include detection confidence
+      </span>
+      <span>
+       Press
+       <kbd>
+        Q
+       </kbd>
+       in the camera window to stop
+      </span>
+     </div>
+    </section>
+    <section class="panel objects-panel" id="objects">
+     <div class="panel-heading">
+      <div>
+       <span class="section-index">
+        02 / RECOGNITION
+       </span>
+       <h2>
+        Detected objects
+       </h2>
+      </div>
+      <span class="count-badge" id="objectBadge">
+       0
+      </span>
+     </div>
+     <div class="class-counts" id="classCounts">
+     </div>
+     <div class="detection-cards" id="detectionCards">
+      <div class="empty-state">
+       <span>
+        ◎
+       </span>
+       <h3>
+        Ready when you are
+       </h3>
+       <p>
+        The objects visible to your camera will appear here.
+       </p>
+      </div>
+     </div>
+     <p class="panel-footnote">
+      Confidence describes the label, not the accuracy of distance.
+     </p>
+    </section>
+   </div>
+   <section class="panel explanation" id="distance">
+    <div class="explanation-heading">
+     <span class="section-index">
+      03 / DISTANCE
+     </span>
+     <h2>
+      An estimate, with context.
+     </h2>
+     <p>
+      A normal webcam sees pixels. To convert them into metres, this prototype needs assumptions or calibration.
+     </p>
+    </div>
+    <div class="explanation-details">
+     <span class="mode-tag" id="distanceModeTag">
+      WEBCAM ESTIMATE
+     </span>
+     <h3 id="distanceTitle">
+      How distance works
+     </h3>
+     <p id="distanceExplanation">
+      Waiting for the detector settings.
+     </p>
+     <p class="assumption-line" id="sizeAssumptions">
+     </p>
+     <div class="notice">
+      “Unavailable” means the distance is unknown. It does not mean the path is clear.
+     </div>
+    </div>
+   </section>
+   <section class="panel output-panel" id="output">
+    <div class="panel-heading">
+     <div>
+      <span class="section-index">
+       04 / OUTPUT
+      </span>
+      <h2>
+       One observation, ready to use
+      </h2>
+     </div>
+     <a class="text-link" href="/api/detections" rel="noopener" target="_blank">
+      Open live JSON ↗
+     </a>
+    </div>
+    <p class="output-description">
+     Object label, confidence, image position and distance status. A future Pi controller can consume this data; this version sends no wheel commands.
+    </p>
+    <details>
+     <summary>
+      Inspect the current frame data
+     </summary>
+     <pre id="rawOutput">Waiting for observations…</pre>
+    </details>
+    <div class="output-footer">
+     <span id="frameNumber">
+      No frame received
+     </span>
+     <span id="lastUpdate">
+      —
+     </span>
+    </div>
+   </section>
+   <footer class="page-footer">
+    <a href="https://docs.ultralytics.com/models/yoloe/" rel="noopener" target="_blank">
+     MODEL BY ULTRALYTICS · YOLOE ↗
+    </a>
+    <span>
+     Webcam, distance estimates &amp; dashboard added for this project
+    </span>
+   </footer>
+  </main>
+ </body>
+</html>

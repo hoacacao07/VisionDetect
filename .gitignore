@@ -1,0 +1,7 @@
+.venv/
+.ultralytics/
+__pycache__/
+models/*.pt
+models/*.ts
+models/*_ncnn_model/
+results/

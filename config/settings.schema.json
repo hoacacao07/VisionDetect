@@ -1,0 +1,294 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Vision Lab settings",
+  "type": "object",
+  "required": [
+    "camera",
+    "detection",
+    "distance",
+    "output",
+    "motion"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "camera": {
+      "type": "object",
+      "properties": {
+        "index": {
+          "type": "integer",
+          "description": "Camera number: 0 is usually built-in, 1 may be USB."
+        },
+        "width": {
+          "type": "integer",
+          "description": "Requested webcam width in pixels.",
+          "minimum": 1
+        },
+        "height": {
+          "type": "integer",
+          "description": "Requested webcam height in pixels.",
+          "minimum": 1
+        },
+        "driver": {
+          "enum": [
+            "opencv",
+            "picamera2"
+          ],
+          "description": "OpenCV for webcam/USB/URL; Picamera2 for Raspberry Pi CSI cameras."
+        },
+        "source": {
+          "type": [
+            "integer",
+            "string",
+            "null"
+          ],
+          "description": "null uses index; otherwise a camera number, device path or stream URL. Never commit passwords."
+        },
+        "backend": {
+          "enum": [
+            "auto",
+            "dshow",
+            "msmf",
+            "v4l2",
+            "ffmpeg",
+            "gstreamer"
+          ],
+          "description": "OpenCV capture backend. auto tries DirectShow then default for Windows camera indices."
+        },
+        "fps": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "exclusiveMinimum": 0,
+          "description": "Requested capture FPS; actual rate depends on hardware, resolution and exposure."
+        },
+        "startup_timeout_s": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "description": "Stop if no initial image arrives within this many seconds."
+        },
+        "maximum_frame_age_s": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "description": "Stop when the last received frame is older than this many seconds. Excludes unknown upstream buffering."
+        },
+        "maximum_read_failures": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Stop after this many consecutive unsuccessful capture reads."
+        }
+      },
+      "required": [
+        "index",
+        "width",
+        "height"
+      ],
+      "additionalProperties": false
+    },
+    "detection": {
+      "type": "object",
+      "properties": {
+        "human_model": {
+          "type": "string",
+          "description": "Optional people-focused checkpoint; empty disables the second model."
+        },
+        "human_minimum_confidence": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 1,
+          "description": "Minimum confidence for human specialist proposals, mapped to person."
+        },
+        "model": {
+          "type": "string",
+          "description": "Prepared weights/model directory relative to project root."
+        },
+        "image_size": {
+          "type": "integer",
+          "description": "Model input size; smaller is faster, larger may recognize small objects better.",
+          "minimum": 1
+        },
+        "minimum_confidence": {
+          "type": "number",
+          "description": "Minimum label confidence, not distance confidence.",
+          "exclusiveMinimum": 0,
+          "maximum": 1
+        },
+        "cpu_threads": {
+          "type": "integer",
+          "description": "Maximum inference CPU threads.",
+          "minimum": 1
+        }
+      },
+      "required": [
+        "model",
+        "image_size",
+        "minimum_confidence",
+        "cpu_threads"
+      ],
+      "additionalProperties": false
+    },
+    "distance": {
+      "type": "object",
+      "properties": {
+        "mode": {
+          "type": "string",
+          "description": "size = assumed object height; ground = calibrated ground plane; off = no estimates.",
+          "enum": [
+            "size",
+            "ground",
+            "off"
+          ]
+        },
+        "horizontal_fov_degrees": {
+          "type": "integer",
+          "description": "Assumed horizontal camera angle if no focal calibration. Default is unverified."
+        },
+        "assumed_object_heights_m": {
+          "type": "object",
+          "description": "Class name to assumed full upright object height in metres."
+        },
+        "camera_height_m": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "description": "Measured lens height above level ground for ground mode; null = not set."
+        },
+        "camera_downward_tilt_degrees": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "description": "Measured tilt below horizontal for ground mode: 0 = level, positive = down."
+        },
+        "focal_calibration": {
+          "type": "object",
+          "description": "Helper writes focal_px and image_width here."
+        },
+        "maximum_distance_m": {
+          "type": "integer",
+          "description": "Reporting limit in metres; not an accuracy claim."
+        }
+      },
+      "required": [
+        "mode",
+        "horizontal_fov_degrees",
+        "assumed_object_heights_m",
+        "camera_height_m",
+        "camera_downward_tilt_degrees",
+        "focal_calibration",
+        "maximum_distance_m"
+      ],
+      "additionalProperties": false
+    },
+    "output": {
+      "type": "object",
+      "properties": {
+        "api_port": {
+          "type": "integer",
+          "description": "Local viewer/API port. Restart and update browser URL after changes."
+        },
+        "write_detection_log": {
+          "type": "boolean",
+          "description": "Save detection metadata only, not video."
+        }
+      },
+      "required": [
+        "api_port",
+        "write_detection_log"
+      ],
+      "additionalProperties": false
+    },
+    "motion": {
+      "type": "object",
+      "properties": {
+        "camera_stationary": {
+          "type": "boolean",
+          "description": "Must remain true; no moving-camera compensation yet."
+        },
+        "allow_size_based_speed": {
+          "type": "boolean",
+          "description": "Allow rough m/s and arrival estimates from assumed object heights. False requires calibrated ground scale."
+        },
+        "minimum_samples": {
+          "type": "integer",
+          "description": "Observations required before reporting velocity."
+        },
+        "minimum_observation_s": {
+          "type": "number",
+          "description": "Minimum track duration before reporting speed."
+        },
+        "velocity_window_s": {
+          "type": "number",
+          "description": "Recent history used for least-squares velocity smoothing."
+        },
+        "maximum_track_gap_s": {
+          "type": "number",
+          "description": "Drop identities after this detection gap."
+        },
+        "maximum_velocity_gap_s": {
+          "type": "number",
+          "description": "Reset velocity history after this gap."
+        },
+        "association_distance_fraction": {
+          "type": "number",
+          "description": "Maximum matching displacement as fraction of image diagonal."
+        },
+        "image_motion_threshold_px_s": {
+          "type": "integer",
+          "description": "Image-speed threshold used to describe movement."
+        },
+        "metric_motion_threshold_mps": {
+          "type": "number",
+          "description": "Suppress zone forecasts below this noisy low-speed range."
+        },
+        "front_zone": {
+          "type": "object",
+          "description": "Example camera-relative area for point arrival estimates, not physical collision.",
+          "properties": {
+            "width_m": {
+              "type": "number",
+              "description": "Zone width in metres."
+            },
+            "near_m": {
+              "type": "number",
+              "description": "Nearest forward edge in metres."
+            },
+            "far_m": {
+              "type": "number",
+              "description": "Farthest forward edge in metres."
+            },
+            "prediction_horizon_s": {
+              "type": "number",
+              "description": "Maximum forward prediction in seconds."
+            }
+          },
+          "required": [
+            "width_m",
+            "near_m",
+            "far_m",
+            "prediction_horizon_s"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "camera_stationary",
+        "allow_size_based_speed",
+        "minimum_samples",
+        "minimum_observation_s",
+        "velocity_window_s",
+        "maximum_track_gap_s",
+        "maximum_velocity_gap_s",
+        "association_distance_fraction",
+        "image_motion_threshold_px_s",
+        "metric_motion_threshold_mps",
+        "front_zone"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

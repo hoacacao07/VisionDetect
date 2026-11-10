@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Editable straight-line navigation settings",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "cruise_speed_mps": {
+      "type": "number",
+      "description": "Normal forward speed, metres/second. Simulated motors only.",
+      "exclusiveMinimum": 0
+    },
+    "stop_gap_m": {
+      "type": "number",
+      "description": "Minimum front clearance in metres BEFORE adding speed-dependent braking and reaction allowances.",
+      "exclusiveMinimum": 0
+    },
+    "resume_gap_m": {
+      "type": "number",
+      "description": "Restart only above this front clearance, after clear_hold_s. Must exceed stop_gap_m.",
+      "exclusiveMinimum": 0
+    },
+    "slow_gap_m": {
+      "type": "number",
+      "description": "Begin reducing forward speed below this front clearance in metres. Must be at least resume_gap_m.",
+      "exclusiveMinimum": 0
+    },
+    "clear_hold_s": {
+      "type": "number",
+      "description": "Seconds of clear path required before restarting.",
+      "minimum": 0
+    },
+    "braking_deceleration_mps2": {
+      "type": "number",
+      "description": "Assumed available braking deceleration in the stopping-distance calculation. Physical value must be measured.",
+      "exclusiveMinimum": 0
+    },
+    "reaction_time_s": {
+      "type": "number",
+      "description": "Additional reaction allowance in seconds multiplied by measured robot speed.",
+      "minimum": 0
+    },
+    "corridor_half_width_m": {
+      "type": "number",
+      "description": "Half-width of the forward travel corridor in metres; includes desired side margin.",
+      "exclusiveMinimum": 0
+    },
+    "front_offset_m": {
+      "type": "number",
+      "description": "Distance from camera origin to robot front in metres. Update with geometry.",
+      "minimum": 0
+    },
+    "wheel_radius_m": {
+      "type": "number",
+      "description": "Wheel radius in metres used to convert encoder angle to travel.",
+      "exclusiveMinimum": 0
+    },
+    "duration_s": {
+      "type": "number",
+      "description": "Scripted simulation duration in seconds. Validation timeline currently expects 65.",
+      "exclusiveMinimum": 0
+    },
+    "minimum_slow_speed_fraction": {
+      "type": "number",
+      "description": "Slow-zone minimum speed as a fraction of cruise speed; does not override a STOP.",
+      "exclusiveMinimum": 0,
+      "maximum": 1
+    },
+    "unknown_range_center_fraction": {
+      "type": "number",
+      "description": "Width fraction of central image band that triggers a conservative stop for objects with unknown range.",
+      "exclusiveMinimum": 0,
+      "maximum": 1
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "cruise_speed_mps",
+    "stop_gap_m",
+    "resume_gap_m",
+    "slow_gap_m",
+    "clear_hold_s",
+    "braking_deceleration_mps2",
+    "reaction_time_s",
+    "corridor_half_width_m",
+    "front_offset_m",
+    "wheel_radius_m",
+    "duration_s",
+    "minimum_slow_speed_fraction",
+    "unknown_range_center_fraction"
+  ]
+}

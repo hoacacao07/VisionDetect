@@ -1,0 +1,18 @@
+{
+  "random_seed": 42,
+  "camera_acquisition_delay_s": 0.05,
+  "profile": "measured_laptop",
+  "additional_processing_delay_s": 0.0,
+  "stress_additional_processing_delay_s": 0.15,
+  "camera_dropout_probability": 0.01,
+  "range_dropout_probability": 0.02,
+  "maximum_vision_age_s": 0.65,
+  "maximum_range_age_s": 0.4,
+  "maximum_acceleration_mps2": 0.3,
+  "maximum_deceleration_mps2": 0.6,
+  "range_update_period_s": 0.128,
+  "vary_lighting": true,
+  "animate_pedestrian": true,
+  "stop_clearance_requirement_m": 0.6,
+  "$schema": "./realism_settings.schema.json"
+}

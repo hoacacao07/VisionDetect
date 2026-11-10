@@ -1,0 +1,114 @@
+{
+  "measured_laptop": {
+    "profile": "measured_laptop",
+    "scenario_version": "continuous_v3_65s",
+    "model": "outdoor_detector_small_openvino_model: 48 categories, 57 visual prompts",
+    "checks": {
+      "completed": true,
+      "minimum_clearance_passed": true,
+      "no_non_ground_contacts": true,
+      "physically_stopped_near_person": true,
+      "resumed_after_person": true,
+      "physically_stopped_near_box": true,
+      "resumed_after_box": true,
+      "stopped_during_camera_cover": true,
+      "resumed_after_uncover": true,
+      "stationary_at_completion": true
+    },
+    "all_response_checks_passed": true,
+    "minimum_reference_gap_m": 1.2328142354484257,
+    "non_ground_contact_frames": 0,
+    "covered_camera_physical_stop_latency_s": 0.7439999999999998,
+    "completed_inferences": 837,
+    "control_steps": 2032,
+    "elapsed_wall_s": 104.895189,
+    "mean_inference_updates_per_wall_s": 7.97939360212221,
+    "recognition_windows": {
+      "person_waiting": {
+        "images": 147,
+        "expected_visible_categories": [
+          "person",
+          "tree",
+          "car"
+        ],
+        "observed_frames": {
+          "person": 147,
+          "tree": 133,
+          "car": 147
+        },
+        "all_expected_observed_frames": 133
+      },
+      "stationary_box": {
+        "images": 131,
+        "expected_visible_categories": [
+          "box",
+          "tree",
+          "car"
+        ],
+        "observed_frames": {
+          "box": 131,
+          "tree": 131,
+          "car": 131
+        },
+        "all_expected_observed_frames": 131
+      }
+    },
+    "limitations": "Scene-specific, tuned diagnostic. Approximate reference footprints; stylized assets. Not real-world recall or safety certification."
+  },
+  "stress": {
+    "profile": "delay_dropout_stress",
+    "scenario_version": "continuous_v3_65s",
+    "model": "outdoor_detector_small_openvino_model: 48 categories, 57 visual prompts",
+    "checks": {
+      "completed": true,
+      "minimum_clearance_passed": true,
+      "no_non_ground_contacts": true,
+      "physically_stopped_near_person": true,
+      "resumed_after_person": true,
+      "physically_stopped_near_box": true,
+      "resumed_after_box": true,
+      "stopped_during_camera_cover": true,
+      "resumed_after_uncover": true,
+      "stationary_at_completion": true
+    },
+    "all_response_checks_passed": true,
+    "minimum_reference_gap_m": 1.2366414355309063,
+    "non_ground_contact_frames": 0,
+    "covered_camera_physical_stop_latency_s": 0.6799999999999997,
+    "completed_inferences": 268,
+    "control_steps": 2032,
+    "elapsed_wall_s": 69.130255,
+    "mean_inference_updates_per_wall_s": 3.8767396417096966,
+    "recognition_windows": {
+      "person_waiting": {
+        "images": 49,
+        "expected_visible_categories": [
+          "person",
+          "tree",
+          "car"
+        ],
+        "observed_frames": {
+          "person": 49,
+          "tree": 46,
+          "car": 49
+        },
+        "all_expected_observed_frames": 46
+      },
+      "stationary_box": {
+        "images": 44,
+        "expected_visible_categories": [
+          "box",
+          "tree",
+          "car"
+        ],
+        "observed_frames": {
+          "box": 44,
+          "tree": 44,
+          "car": 44
+        },
+        "all_expected_observed_frames": 44
+      }
+    },
+    "limitations": "Scene-specific, tuned diagnostic. Approximate reference footprints; stylized assets. Not real-world recall or safety certification."
+  }
+}

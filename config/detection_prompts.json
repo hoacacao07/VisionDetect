@@ -1,0 +1,6 @@
+{
+  "box": ["red box", "blue box", "green box", "black box", "plastic container"],
+  "crate": ["plastic crate"],
+  "person": ["human", "pedestrian"],
+  "car": ["parked car"]
+}

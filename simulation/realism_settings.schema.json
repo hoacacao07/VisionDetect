@@ -1,0 +1,101 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "random_seed": {
+      "type": "integer",
+      "description": "Reproducible simulated sample loss; integer seed.",
+      "minimum": 0
+    },
+    "camera_acquisition_delay_s": {
+      "type": "number",
+      "description": "Delay before a captured camera image becomes available, seconds.",
+      "minimum": 0
+    },
+    "profile": {
+      "type": "string",
+      "description": "Name reported in logs. The stress launcher overrides the profile and stress settings."
+    },
+    "additional_processing_delay_s": {
+      "type": "number",
+      "description": "Extra simulated processing delay beyond measured model runtime, seconds.",
+      "minimum": 0
+    },
+    "stress_additional_processing_delay_s": {
+      "type": "number",
+      "description": "Extra delay selected by the stress launcher, seconds.",
+      "minimum": 0
+    },
+    "camera_dropout_probability": {
+      "type": "number",
+      "description": "Probability of dropping each scheduled camera sample, 0 to 1.",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "range_dropout_probability": {
+      "type": "number",
+      "description": "Probability of dropping each scheduled range update, 0 to 1.",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "maximum_vision_age_s": {
+      "type": "number",
+      "description": "Stop when available vision is older than this age, seconds.",
+      "minimum": 0
+    },
+    "maximum_range_age_s": {
+      "type": "number",
+      "description": "Stop when retained range measurements are older than this age, seconds.",
+      "minimum": 0
+    },
+    "maximum_acceleration_mps2": {
+      "type": "number",
+      "description": "Maximum rise of commanded speed, metres/second squared.",
+      "minimum": 0
+    },
+    "maximum_deceleration_mps2": {
+      "type": "number",
+      "description": "Maximum fall of commanded speed, metres/second squared; actual motion also depends on wheel physics.",
+      "minimum": 0
+    },
+    "range_update_period_s": {
+      "type": "number",
+      "description": "Requested simulated sonar sample interval, rounded to controller steps.",
+      "minimum": 0
+    },
+    "vary_lighting": {
+      "type": "boolean",
+      "description": "Vary scene illumination during the test."
+    },
+    "animate_pedestrian": {
+      "type": "boolean",
+      "description": "Animate the scripted walking person joints."
+    },
+    "stop_clearance_requirement_m": {
+      "type": "number",
+      "description": "Offline evaluation clearance criterion, metres. Does not set the motor stopping threshold.",
+      "minimum": 0
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "random_seed",
+    "camera_acquisition_delay_s",
+    "profile",
+    "additional_processing_delay_s",
+    "stress_additional_processing_delay_s",
+    "camera_dropout_probability",
+    "range_dropout_probability",
+    "maximum_vision_age_s",
+    "maximum_range_age_s",
+    "maximum_acceleration_mps2",
+    "maximum_deceleration_mps2",
+    "range_update_period_s",
+    "vary_lighting",
+    "animate_pedestrian",
+    "stop_clearance_requirement_m"
+  ]
+}

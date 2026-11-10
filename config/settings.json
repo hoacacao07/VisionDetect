@@ -1,0 +1,57 @@
+{
+  "$schema": "./settings.schema.json",
+  "camera": {
+    "driver": "opencv",
+    "source": null,
+    "backend": "auto",
+    "index": 0,
+    "width": 640,
+    "height": 480,
+    "fps": 30,
+    "startup_timeout_s": 10,
+    "maximum_frame_age_s": 2,
+    "maximum_read_failures": 30
+  },
+  "detection": {
+    "model": "models/outdoor_detector_small_openvino_model",
+    "image_size": 640,
+    "minimum_confidence": 0.35,
+    "cpu_threads": 4,
+    "human_model": "",
+    "human_minimum_confidence": 0.3
+  },
+  "distance": {
+    "mode": "size",
+    "horizontal_fov_degrees": 65,
+    "assumed_object_heights_m": {
+      "person": 1.7,
+      "car": 1.5
+    },
+    "camera_height_m": null,
+    "camera_downward_tilt_degrees": null,
+    "focal_calibration": {},
+    "maximum_distance_m": 30
+  },
+  "output": {
+    "api_port": 8879,
+    "write_detection_log": true
+  },
+  "motion": {
+    "camera_stationary": true,
+    "allow_size_based_speed": true,
+    "minimum_samples": 4,
+    "minimum_observation_s": 0.6,
+    "velocity_window_s": 1.5,
+    "maximum_track_gap_s": 0.8,
+    "maximum_velocity_gap_s": 0.3,
+    "association_distance_fraction": 0.2,
+    "image_motion_threshold_px_s": 6,
+    "metric_motion_threshold_mps": 0.15,
+    "front_zone": {
+      "width_m": 1.0,
+      "near_m": 0.5,
+      "far_m": 2.0,
+      "prediction_horizon_s": 8.0
+    }
+  }
+}

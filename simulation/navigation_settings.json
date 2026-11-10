@@ -1,0 +1,16 @@
+{
+  "cruise_speed_mps": 0.35,
+  "stop_gap_m": 1.2,
+  "resume_gap_m": 1.8,
+  "slow_gap_m": 2.8,
+  "clear_hold_s": 1.0,
+  "braking_deceleration_mps2": 0.8,
+  "reaction_time_s": 0.3,
+  "corridor_half_width_m": 0.5,
+  "front_offset_m": 0.36,
+  "wheel_radius_m": 0.15,
+  "duration_s": 65,
+  "$schema": "./navigation_settings.schema.json",
+  "minimum_slow_speed_fraction": 0.2,
+  "unknown_range_center_fraction": 0.2
+}

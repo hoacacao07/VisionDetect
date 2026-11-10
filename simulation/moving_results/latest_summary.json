@@ -1,0 +1,127 @@
+{
+  "frames": 2032,
+  "profile": "measured_laptop",
+  "completed_inferences": 906,
+  "above_ground_contact_frames": 0,
+  "assumptions": {
+    "random_seed": 42,
+    "camera_acquisition_delay_s": 0.05,
+    "profile": "measured_laptop",
+    "additional_processing_delay_s": 0.0,
+    "stress_additional_processing_delay_s": 0.15,
+    "camera_dropout_probability": 0.01,
+    "range_dropout_probability": 0.02,
+    "maximum_vision_age_s": 0.65,
+    "maximum_range_age_s": 0.4,
+    "maximum_acceleration_mps2": 0.3,
+    "maximum_deceleration_mps2": 0.6,
+    "range_update_period_s": 0.128,
+    "vary_lighting": true,
+    "animate_pedestrian": true,
+    "stop_clearance_requirement_m": 0.6,
+    "$schema": "./realism_settings.schema.json"
+  },
+  "simulation_time_s": 65.024,
+  "clearance_violations": 0,
+  "minimum_front_gap_m": 1.2391373398056207,
+  "maximum_odometry_error_m": 0.0019768048589137166,
+  "phases": {
+    "person_enters_path": {
+      "frames": 312,
+      "moving_frames": 111,
+      "stopped_frames": 201,
+      "person_detection_fraction": 0.9807692307692307,
+      "camera_alert_frames": 0,
+      "reasons": [
+        "central_object_range_unknown",
+        "confirming_clear_path",
+        "path_clear",
+        "waiting_for_fresh_vision"
+      ],
+      "maximum_measured_speed_mps": 0.34983752843885035
+    },
+    "person_waits": {
+      "frames": 375,
+      "moving_frames": 327,
+      "stopped_frames": 48,
+      "person_detection_fraction": 1.0,
+      "camera_alert_frames": 0,
+      "reasons": [
+        "obstacle_in_stop_zone",
+        "path_clear",
+        "waiting_for_clearance"
+      ],
+      "maximum_measured_speed_mps": 0.267527303822096
+    },
+    "person_leaves_path": {
+      "frames": 312,
+      "moving_frames": 107,
+      "stopped_frames": 205,
+      "person_detection_fraction": 0.6506410256410257,
+      "camera_alert_frames": 0,
+      "reasons": [
+        "central_object_range_unknown",
+        "confirming_clear_path",
+        "obstacle_in_stop_zone",
+        "path_clear",
+        "waiting_for_clearance"
+      ],
+      "maximum_measured_speed_mps": 0.34983752844017224
+    },
+    "stationary_box_ahead": {
+      "frames": 563,
+      "moving_frames": 393,
+      "stopped_frames": 170,
+      "person_detection_fraction": 0.0,
+      "camera_alert_frames": 0,
+      "reasons": [
+        "obstacle_in_stop_zone",
+        "path_clear",
+        "waiting_for_clearance"
+      ],
+      "maximum_measured_speed_mps": 0.34983752844053306
+    },
+    "box_leaves_path": {
+      "frames": 156,
+      "moving_frames": 80,
+      "stopped_frames": 76,
+      "person_detection_fraction": 0.0,
+      "camera_alert_frames": 0,
+      "reasons": [
+        "confirming_clear_path",
+        "path_clear",
+        "waiting_for_clearance"
+      ],
+      "maximum_measured_speed_mps": 0.3498375284084476
+    },
+    "camera_covered": {
+      "frames": 156,
+      "moving_frames": 5,
+      "stopped_frames": 151,
+      "person_detection_fraction": 0.0,
+      "camera_alert_frames": 119,
+      "reasons": [
+        "camera_blocked",
+        "camera_visibility_uncertain",
+        "path_clear"
+      ],
+      "maximum_measured_speed_mps": 0.3498375284323174
+    },
+    "clear_finish": {
+      "frames": 158,
+      "moving_frames": 63,
+      "stopped_frames": 95,
+      "person_detection_fraction": 0.0,
+      "camera_alert_frames": 11,
+      "reasons": [
+        "camera_blocked",
+        "confirming_clear_path",
+        "path_clear",
+        "test_complete",
+        "test_complete_braking",
+        "waiting_for_fresh_vision"
+      ],
+      "maximum_measured_speed_mps": 0.34983752721845507
+    }
+  }
+}
