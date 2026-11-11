@@ -110,14 +110,20 @@ class LatestFrameCamera:
     end-to-end latency and synchronized sensor timestamps (NAV-INPUT).
     """
 
-    def __init__(self, config):
-        """Choose a hardware adapter and start a background capture thread."""
-        adapter = (
-            Picamera2Input
-            if config.get("driver", "opencv") == "picamera2"
-            else OpenCVCameraInput
-        )
-        self.input = adapter(config)
+    def __init__(self, config, distance_settings=None):
+        """Choose a hardware adapter and start a background capture thread.
+
+        distance_settings is only needed by the simulated camera (driver "sim").
+        """
+        driver = config.get("driver", "opencv")
+        if driver == "sim":
+            from sim.camera import SimCameraInput  # Simulation only (sim/ folder).
+
+            self.input = SimCameraInput(config, distance_settings)
+        elif driver == "picamera2":
+            self.input = Picamera2Input(config)
+        else:
+            self.input = OpenCVCameraInput(config)
         self.maximum_read_failures = config.get("maximum_read_failures", 30)
         self.frame = None
         self.frame_sequence = 0

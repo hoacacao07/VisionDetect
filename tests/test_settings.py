@@ -34,8 +34,19 @@ class SettingsTests(unittest.TestCase):
                 load_navigation_settings(path)
 
     def test_camera_profiles_load_and_start_without_distance_claims(self):
+        # Shipped profiles must not report distances before calibration: either
+        # distance is off, or ground mode still lacks the measured mounting.
+        from vision_detection.distance import estimate_distance_m
+
         for path in (DEFAULT_SETTINGS_PATH.parent / "cameras").glob("*.json"):
-            self.assertEqual(load_settings(path)["distance"]["mode"], "off")
+            settings = load_settings(path)
+            if settings["camera"]["driver"] == "sim":
+                continue  # Simulated camera: its mounting is known exactly.
+            distance, _ = estimate_distance_m(
+                [280, 200, 360, 400], "person", 640, 480, settings["distance"]
+            )
+            self.assertIsNone(distance, path.name)
+            self.assertIn(settings["distance"]["mode"], ("off", "ground"), path.name)
 
     def test_invalid_camera_source_is_rejected(self):
         config = json.loads(DEFAULT_SETTINGS_PATH.read_text())

@@ -33,9 +33,10 @@
         "driver": {
           "enum": [
             "opencv",
-            "picamera2"
+            "picamera2",
+            "sim"
           ],
-          "description": "OpenCV for webcam/USB/URL; Picamera2 for Raspberry Pi CSI cameras."
+          "description": "OpenCV for webcam/USB/URL; Picamera2 for Raspberry Pi CSI cameras; sim renders the simulated world (sim/render_scene.py)."
         },
         "source": {
           "type": [

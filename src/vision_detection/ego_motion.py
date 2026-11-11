@@ -2,7 +2,9 @@
 
 The camera must keep a fixed height/pitch and heading on level ground. Wheel
 travel is an estimated sensor measurement, not a simulator position lookup.
-On a Pi, supply measured encoder travel and speed, not commanded motor speed.
+Prefer measured encoder travel. The real robot has no encoders, so it supplies
+travel estimated from its calibrated open-loop motor model; errors in that
+estimate show up as small false motion of stationary objects.
 """
 
 import math

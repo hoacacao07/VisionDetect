@@ -1,0 +1,7 @@
+{
+  "description": "Open floor, red box 0.8 m to the left of the robot's path (corridor half width is 0.15 m). Must NOT slow the robot.",
+  "robot_start": {"x": 0.0, "y": 0.0, "heading_deg": 0.0},
+  "obstacles": [
+    {"name": "red_box", "x_min": 2.6, "x_max": 2.9, "y_min": 0.65, "y_max": 0.95, "height": 0.3, "color_bgr": [40, 40, 220]}
+  ]
+}

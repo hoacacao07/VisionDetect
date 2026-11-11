@@ -1,0 +1,5 @@
+{
+  "description": "Nothing at all. Every HC-SR04 times out -> nan -> the Pi must refuse to drive.",
+  "robot_start": {"x": 0.0, "y": 0.0, "heading_deg": 0.0},
+  "obstacles": []
+}

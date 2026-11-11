@@ -1,0 +1,8 @@
+file,class,true_distance_m
+# One row per object to check. file = image name in the --images folder.,,
+# class = a detector class (for example person). Lines starting with # are ignored.,,
+# true_distance_m = tape-measured floor distance from the point under the lens to the object's base.,,
+img_0001.jpg,person,0.50
+img_0002.jpg,person,1.00
+img_0003.jpg,person,2.00
+img_0004.jpg,person,3.00

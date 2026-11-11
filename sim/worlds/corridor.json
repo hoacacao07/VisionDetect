@@ -1,0 +1,9 @@
+{
+  "description": "Straight corridor 2 m wide. The end wall is 3.7 m ahead of the bumper so every HC-SR04 has an echo (no echo = nan = STOP). In a narrower corridor the angled side sensors see the side walls under slow_gap_m and the robot crawls in SLOW.",
+  "robot_start": {"x": 0.0, "y": 0.0, "heading_deg": 0.0},
+  "obstacles": [
+    {"name": "left_wall", "x_min": -1.0, "x_max": 3.9, "y_min": 1.0, "y_max": 1.05, "height": 0.4, "color_bgr": [170, 180, 190]},
+    {"name": "right_wall", "x_min": -1.0, "x_max": 3.9, "y_min": -1.05, "y_max": -1.0, "height": 0.4, "color_bgr": [170, 180, 190]},
+    {"name": "end_wall", "x_min": 3.8, "x_max": 3.9, "y_min": -1.05, "y_max": 1.05, "height": 0.4, "color_bgr": [170, 180, 190]}
+  ]
+}

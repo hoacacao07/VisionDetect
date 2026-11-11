@@ -32,8 +32,9 @@ def load_settings(path=DEFAULT_SETTINGS_PATH):
                 raise ValueError(f"{name} must be a positive integer")
         if type(camera["index"]) is not int or camera["index"] < 0:
             raise ValueError("camera.index must be a non-negative integer")
-        if camera.get("driver", "opencv") not in ("opencv", "picamera2"):
-            raise ValueError("camera.driver must be opencv or picamera2")
+        if camera.get("driver", "opencv") not in ("opencv", "picamera2", "sim"):
+            # "sim" renders frames from sim/render_scene.py (simulation only).
+            raise ValueError("camera.driver must be opencv, picamera2 or sim")
         if camera.get("backend", "auto") not in (
             "auto",
             "dshow",
@@ -51,7 +52,7 @@ def load_settings(path=DEFAULT_SETTINGS_PATH):
             raise ValueError(
                 "camera.source must be null, a non-negative index, or a non-empty URL/device path"
             )
-        if camera.get("driver") == "picamera2" and source is not None:
+        if camera.get("driver") in ("picamera2", "sim") and source is not None:
             raise ValueError("Picamera2 uses camera.index; set camera.source to null")
         for key, default in (("startup_timeout_s", 10), ("maximum_frame_age_s", 2)):
             value = camera.get(key, default)
@@ -142,40 +143,47 @@ def load_navigation_settings(path=None):
         else PROJECT_DIRECTORY / "simulation/navigation_settings.json"
     )
     try:
-        config = json.loads(path.read_text(encoding="utf-8-sig"))
-        config.setdefault("minimum_slow_speed_fraction", 0.2)
-        config.setdefault("unknown_range_center_fraction", 0.2)
-        for name in (
-            "cruise_speed_mps",
-            "stop_gap_m",
-            "resume_gap_m",
-            "slow_gap_m",
-            "braking_deceleration_mps2",
-            "corridor_half_width_m",
-            "wheel_radius_m",
-            "duration_s",
-        ):
-            value = config[name]
-            if (
-                type(value) not in (int, float)
-                or not math.isfinite(value)
-                or value <= 0
-            ):
-                raise ValueError(f"{name} must be positive and finite")
-        for name in ("clear_hold_s", "reaction_time_s", "front_offset_m"):
-            value = config[name]
-            if type(value) not in (int, float) or not math.isfinite(value) or value < 0:
-                raise ValueError(f"{name} must be non-negative and finite")
-        if not config["stop_gap_m"] < config["resume_gap_m"] <= config["slow_gap_m"]:
-            raise ValueError("Require stop_gap_m < resume_gap_m <= slow_gap_m")
-        for name in ("minimum_slow_speed_fraction", "unknown_range_center_fraction"):
-            value = config[name]
-            if (
-                type(value) not in (int, float)
-                or not math.isfinite(value)
-                or not 0 < value <= 1
-            ):
-                raise ValueError(f"{name} must be greater than 0 and at most 1")
-        return config
+        return validate_navigation_settings(
+            json.loads(path.read_text(encoding="utf-8-sig"))
+        )
     except (ValueError, TypeError, KeyError) as error:
         raise ValueError(f"Check {path}: {error}") from error
+
+
+def validate_navigation_settings(
+    config, simulation_fields=("wheel_radius_m", "duration_s")
+):
+    """Validate StopGoController limits in place and return the same dict.
+
+    The Webots world also needs wheel_radius_m/duration_s. The real robot passes
+    simulation_fields=() because the ESP32 firmware owns wheel geometry.
+    """
+    config.setdefault("minimum_slow_speed_fraction", 0.2)
+    config.setdefault("unknown_range_center_fraction", 0.2)
+    for name in (
+        "cruise_speed_mps",
+        "stop_gap_m",
+        "resume_gap_m",
+        "slow_gap_m",
+        "braking_deceleration_mps2",
+        "corridor_half_width_m",
+        *simulation_fields,
+    ):
+        value = config[name]
+        if type(value) not in (int, float) or not math.isfinite(value) or value <= 0:
+            raise ValueError(f"{name} must be positive and finite")
+    for name in ("clear_hold_s", "reaction_time_s", "front_offset_m"):
+        value = config[name]
+        if type(value) not in (int, float) or not math.isfinite(value) or value < 0:
+            raise ValueError(f"{name} must be non-negative and finite")
+    if not config["stop_gap_m"] < config["resume_gap_m"] <= config["slow_gap_m"]:
+        raise ValueError("Require stop_gap_m < resume_gap_m <= slow_gap_m")
+    for name in ("minimum_slow_speed_fraction", "unknown_range_center_fraction"):
+        value = config[name]
+        if (
+            type(value) not in (int, float)
+            or not math.isfinite(value)
+            or not 0 < value <= 1
+        ):
+            raise ValueError(f"{name} must be greater than 0 and at most 1")
+    return config

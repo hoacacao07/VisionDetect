@@ -1,0 +1,7 @@
+{
+  "description": "Open floor, red box in the robot's path. Its front face is 2.5 m ahead of the bumper. Used with ultrasonic forced clear, so only the camera can see it.",
+  "robot_start": {"x": 0.0, "y": 0.0, "heading_deg": 0.0},
+  "obstacles": [
+    {"name": "red_box", "x_min": 2.6, "x_max": 2.9, "y_min": -0.15, "y_max": 0.15, "height": 0.3, "color_bgr": [40, 40, 220]}
+  ]
+}

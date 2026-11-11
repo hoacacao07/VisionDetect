@@ -46,8 +46,12 @@ class LocalDetectionServer(ThreadingHTTPServer):
         super().server_bind()
 
 
-def start_local_server(snapshot, port):
-    """Start background request handling; the caller must shut the server down."""
+def start_local_server(snapshot, port, host="127.0.0.1"):
+    """Start background request handling; the caller must shut the server down.
+
+    host defaults to this machine only. "0.0.0.0" lets a laptop on the same
+    trusted network view a headless robot's dashboard; it stays read-only.
+    """
 
     # NAV-OUTPUT: localhost HTTP is a prototype observation transport. A future
     # controller needs a bounded-age heartbeat and explicit handling when this
@@ -91,6 +95,6 @@ def start_local_server(snapshot, port):
             except (BrokenPipeError, ConnectionResetError):
                 pass  # Closing a browser tab midway through a request is normal.
 
-    server = LocalDetectionServer(("127.0.0.1", port), DetectionRequestHandler)
+    server = LocalDetectionServer((host, port), DetectionRequestHandler)
     threading.Thread(target=server.serve_forever, daemon=True).start()
     return server

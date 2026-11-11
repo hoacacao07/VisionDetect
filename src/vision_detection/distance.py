@@ -4,6 +4,7 @@
 # relying on them for robot clearance. Preserve null for unsupported estimates.
 
 import math
+from .camera_model import focal_length_px, pixel_to_ground
 
 
 def estimate_distance_m(bounding_box, label, image_width, image_height, config):
@@ -27,50 +28,38 @@ def estimate_distance_m(bounding_box, label, image_width, image_height, config):
             None,
             "object clipped; full height (size) or base (ground) must be visible",
         )
-    calibration = config.get("focal_calibration", {})
-    if calibration.get("focal_px") and calibration.get("image_width"):
-        # Focal length is in PIXELS, not millimetres. Scale it when resolution
-        # changes; this assumes the camera keeps the same crop and field of view.
-        focal_length_px = (
-            calibration["focal_px"] * image_width / calibration["image_width"]
-        )
-        camera_calibration_note = "calibrated focal length"
-    else:
-        horizontal_fov_degrees = float(config.get("horizontal_fov_degrees", 65))
-        if not 10 < horizontal_fov_degrees < 150:
-            return None, "invalid camera field of view"
-        # Pinhole camera geometry: f_px = image_width / (2 * tan(HFOV / 2)).
-        focal_length_px = image_width / (
-            2 * math.tan(math.radians(horizontal_fov_degrees) / 2)
-        )
-        camera_calibration_note = "assumed camera field of view"
+    calibration = config.get("focal_calibration") or {}
+    # Focal length is in PIXELS, not millimetres (camera_model.py).
+    try:
+        focal_px = focal_length_px(config, image_width)
+    except ValueError:
+        return None, "invalid camera field of view"
+    camera_calibration_note = (
+        "calibrated focal length"
+        if calibration.get("focal_px") and calibration.get("image_width")
+        else "assumed camera field of view"
+    )
     if mode == "ground":
         # Ground mode follows a ray through the box's bottom centre. This only
         # works if that pixel represents the actual base on flat, visible ground.
         camera_height = config.get("camera_height_m")
-        downward_tilt_radians = config.get("camera_downward_tilt_degrees")
-        if camera_height is None or downward_tilt_radians is None or camera_height <= 0:
+        if (
+            camera_height is None
+            or config.get("camera_downward_tilt_degrees") is None
+            or camera_height <= 0
+        ):
             return None, "set measured camera height and downward tilt"
-        downward_tilt_radians = math.radians(downward_tilt_radians)
-        # Normalized image rays: right is +horizontal, down is +vertical,
-        # and forward is 1. Rotate the ray by the camera's downward pitch.
-        ray_horizontal = (
-            (box_left_px + box_right_px) / 2 - image_width / 2
-        ) / focal_length_px
-        ray_vertical = (box_bottom_px - image_height / 2) / focal_length_px
-        ray_downward = math.sin(downward_tilt_radians) + ray_vertical * math.cos(
-            downward_tilt_radians
+        ground = pixel_to_ground(
+            (box_left_px + box_right_px) / 2,
+            box_bottom_px,
+            image_width,
+            image_height,
+            config,
         )
-        ray_forward = math.cos(downward_tilt_radians) - ray_vertical * math.sin(
-            downward_tilt_radians
-        )
-        if ray_downward <= 0.03 or ray_forward <= 0:
+        if ground is None:
             return None, "base above/near ground horizon"
-        # Intersect with the ground: scale = camera_height / ray_downward.
-        # Then take the horizontal distance, excluding the vertical component.
-        estimated_distance_m = (
-            camera_height * math.hypot(ray_horizontal, ray_forward) / ray_downward
-        )
+        # Horizontal distance on the floor, excluding the camera height.
+        estimated_distance_m = math.hypot(*ground)
         if not 0.1 <= estimated_distance_m <= config.get("maximum_distance_m", 30):
             return None, "outside configured estimate range"
         return (
@@ -84,15 +73,9 @@ def estimate_distance_m(bounding_box, label, image_width, image_height, config):
     assumed_height_m = config.get("assumed_object_heights_m", {}).get(label)
     if not assumed_height_m or assumed_height_m <= 0 or box_bottom_px <= box_top_px:
         return None, "unknown object size; use calibrated ground mode"
-    optical_axis_depth_m = (
-        focal_length_px * assumed_height_m / (box_bottom_px - box_top_px)
-    )
-    ray_horizontal = (
-        (box_left_px + box_right_px) / 2 - image_width / 2
-    ) / focal_length_px
-    ray_vertical = (
-        (box_top_px + box_bottom_px) / 2 - image_height / 2
-    ) / focal_length_px
+    optical_axis_depth_m = focal_px * assumed_height_m / (box_bottom_px - box_top_px)
+    ray_horizontal = ((box_left_px + box_right_px) / 2 - image_width / 2) / focal_px
+    ray_vertical = ((box_top_px + box_bottom_px) / 2 - image_height / 2) / focal_px
     # Convert forward (optical-axis) depth into approximate centre-ray range.
     estimated_distance_m = optical_axis_depth_m * math.sqrt(
         1 + ray_horizontal * ray_horizontal + ray_vertical * ray_vertical

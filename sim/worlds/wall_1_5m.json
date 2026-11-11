@@ -1,0 +1,9 @@
+{
+  "description": "Corridor with a wall 1.5 m ahead of the bumper (bumper starts at x = 0.10).",
+  "robot_start": {"x": 0.0, "y": 0.0, "heading_deg": 0.0},
+  "obstacles": [
+    {"name": "left_wall", "x_min": -1.0, "x_max": 1.7, "y_min": 0.6, "y_max": 0.65, "height": 0.4, "color_bgr": [170, 180, 190]},
+    {"name": "right_wall", "x_min": -1.0, "x_max": 1.7, "y_min": -0.65, "y_max": -0.6, "height": 0.4, "color_bgr": [170, 180, 190]},
+    {"name": "end_wall", "x_min": 1.6, "x_max": 1.7, "y_min": -0.65, "y_max": 0.65, "height": 0.4, "color_bgr": [170, 180, 190]}
+  ]
+}

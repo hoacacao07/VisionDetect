@@ -1,1 +1,3 @@
 ultralytics==8.4.188
+# Robot only: Pi <-> ESP32 serial link (src/vision_detection/esp32_link.py).
+pyserial==3.5

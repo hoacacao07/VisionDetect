@@ -8,6 +8,7 @@ predictions inherit all distance assumptions. No ego-motion correction yet.
 from collections import deque
 from dataclasses import dataclass, field
 import math
+from .camera_model import focal_length_px
 from .distance import estimate_distance_m
 from .motion import unmeasured_motion
 
@@ -80,13 +81,7 @@ def metric_position(detection, width, height, settings, allow_size):
     )
     if distance is None:
         return None, None
-    calibration = settings.get("focal_calibration", {})
-    focal = (
-        calibration["focal_px"] * width / calibration["image_width"]
-        if calibration.get("focal_px")
-        else width
-        / (2 * math.tan(math.radians(settings["horizontal_fov_degrees"]) / 2))
-    )
+    focal = focal_length_px(settings, width)
     left, top, right, bottom = detection["bbox_xyxy"]
     ray_right = ((left + right) / 2 - width / 2) / focal
     if mode == "ground":

@@ -1,0 +1,21 @@
+{
+  "_comment": "Physical robot model used ONLY by the simulator. Firmware constants come from firmware/esp32_robot/include/robot_config.h, camera height/tilt/FOV from config/cameras/sim.json, and the camera-to-bumper offset from config/robot_navigation.json (navigation.front_offset_m).",
+  "track_width_m": 0.15,
+  "axle_to_bumper_m": 0.10,
+  "body_half_width_m": 0.09,
+  "ultrasonic_sensors": [
+    {"name": "left", "left_m": 0.05, "angle_deg": 15},
+    {"name": "centre", "left_m": 0.0, "angle_deg": 0},
+    {"name": "right", "left_m": -0.05, "angle_deg": -15}
+  ],
+  "ultrasonic_beam_half_angle_deg": 7.5,
+  "ultrasonic_noise_m": 0.005,
+  "motor_gain": {"left": 0.93, "right": 1.0},
+  "true_speed_at_full_duty_mps": null,
+  "motor_time_constant_s": 0.08,
+  "brake_time_constant_s": 0.04,
+  "gyro_bias_dps": 0.8,
+  "gyro_noise_dps": 0.05,
+  "camera_fps": 10,
+  "perception_latency_s": 0.08
+}

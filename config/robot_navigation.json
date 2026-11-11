@@ -1,0 +1,39 @@
+{
+  "serial": {
+    "port": "/dev/ttyUSB0",
+    "baud": 115200,
+    "startup_timeout_s": 8
+  },
+  "sensors": {
+    "speed_window_s": 0.2,
+    "speed_estimate_margin": 0.3,
+    "maximum_range_age_s": 0.25,
+    "maximum_telemetry_age_s": 0.25,
+    "rotation_gyro_threshold_dps": 15
+  },
+  "control": {
+    "rate_hz": 20,
+    "maximum_vision_age_s": 0.8,
+    "maximum_acceleration_mps2": 0.3,
+    "maximum_deceleration_mps2": 0.6,
+    "maximum_session_s": 600
+  },
+  "navigation": {
+    "cruise_speed_mps": 0.15,
+    "stop_gap_m": 0.6,
+    "resume_gap_m": 0.9,
+    "slow_gap_m": 1.5,
+    "clear_hold_s": 1.0,
+    "braking_deceleration_mps2": 0.5,
+    "reaction_time_s": 0.5,
+    "corridor_half_width_m": 0.15,
+    "front_offset_m": 0.05,
+    "minimum_slow_speed_fraction": 0.3,
+    "unknown_range_center_fraction": 0.2
+  },
+  "output": {
+    "api_host": "127.0.0.1",
+    "api_port": 8879,
+    "write_log": true
+  }
+}

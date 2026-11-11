@@ -6,6 +6,7 @@ only for the configured ideal simulated sensors, not for arbitrary hardware.
 """
 
 import math
+from .camera_model import focal_length_px
 from .tracking import metric_position
 
 
@@ -53,7 +54,7 @@ class StopGoController:
                     reason = reason or "central_object_range_unknown"
                 continue
             forward, left = position
-            focal = self.distance_settings["focal_calibration"]["focal_px"]
+            focal = focal_length_px(self.distance_settings, width)
             half_width = (box[2] - box[0]) * forward / (2 * focal)
             if (
                 forward > 0
